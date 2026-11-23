@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Santa for Thanos 🎅</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #080b12;
+            --panel: #111722;
+            --panel2: #171f2c;
+            --red: #ed4056;
+            --green: #39bd83;
+            --text: #f5f7fa;
+            --muted: #929baa;
+            --border: rgba(255,255,255,0.09);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar {
+            height: 75px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8,11,18,0.95);
+        }
+
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-tag {
+            color: var(--green);
+            border: 1px solid rgba(57,189,131,0.3);
+            background: rgba(57,189,131,0.08);
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .hero {
+            padding: 85px 20px 65px;
+            text-align: center;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(237,64,86,0.17), transparent 60%);
+        }
+
+        .hero-label {
+            color: var(--green);
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(42px, 7vw, 76px);
+            line-height: 1.05;
+            font-weight: 800;
+            letter-spacing: -3px;
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero p {
+            color: var(--muted);
+            margin: 20px auto 0;
+            max-width: 520px;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 20px 25px 90px;
+        }
+
+        .filter-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 35px;
+        }
+
+        .filter-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.2fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .field label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        .field input, .field select {
+            width: 100%;
+            background: var(--panel2);
+            color: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 13px;
+            outline: none;
+        }
+
+        .field input:focus, .field select:focus {
+            border-color: var(--red);
+        }
+
+        .apply-btn {
+            background: var(--red);
+            border: none;
+            color: white;
+            padding: 14px 23px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .apply-btn:hover {
+            background: #ff596e;
+            transform: translateY(-2px);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin: 35px 0 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 25px;
+        }
+
+        .result-count {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .product {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            overflow: hidden;
+            transition: 0.25s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            border-color: rgba(237,64,86,0.5);
+        }
+
+        .product-image {
+            height: 210px;
+            position: relative;
+            overflow: hidden;
+            background: var(--panel2);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.35s;
+        }
+
+        .product:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .category {
+            position: absolute;
+            top: 13px;
+            left: 13px;
+            background: rgba(8,11,18,0.85);
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .product-content {
+            padding: 19px;
+        }
+
+        .product-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            min-height: 42px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .price-note {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .buy-btn {
+            display: block;
+            width: 100%;
+            background: var(--red);
+            color: white;
+            text-align: center;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .buy-btn:hover {
+            background: #ff596e;
+        }
+
+        .empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 65px 20px;
+            background: var(--panel);
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+
+        .empty h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: var(--muted);
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 30px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer span {
+            color: var(--red);
+        }
+
+        @media(max-width: 900px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 550px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 60px 20px;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SANTA<span>FOR</span>THANOS 🎅</div>
+        <div class="nav-tag">2026 CHRISTMAS</div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-label">🎄 THE OFFICIAL CHRISTMAS GIFT FINDER</div>
+        <h1>Make Thanos'<br><span>Christmas.</span></h1>
+        <p>
+            Looking for the perfect gift? Choose your budget
+            and discover something Thanos will actually love.
+        </p>
+    </header>
+
+    <main class="main">
+
+        <section class="filter-panel">
+            <div class="filter-heading">💰 What's your budget?</div>
+
+            <div class="filters">
+
+                <div class="field">
+                    <label for="minPrice">MINIMUM PRICE ($)</label>
+                    <input type="number" id="minPrice" min="0" value="0">
+                </div>
+
+                <div class="field">
+                    <label for="maxPrice">MAXIMUM PRICE ($)</label>
+                    <input type="number" id="maxPrice" min="0" value="1000">
+                </div>
+
+                <div class="field">
+                    <label for="sort">SORT PRODUCTS</label>
+                    <select id="sort">
+                        <option value="recommended">Recommended</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                    </select>
+                </div>
+
+                <button class="apply-btn" onclick="filterProducts()">
+                    Find Gifts →
+                </button>
+
+            </div>
+        </section>
+
+        <div class="section-header">
+            <h2>🎁 Gift Ideas</h2>
+            <div class="result-count" id="resultCount"></div>
+        </div>
+
+        <section class="products" id="products"></section>
+
+    </main>
+
+    <footer class="footer">
+        Made with <span>❤️</span> for Thanos · Christmas 2026
+    </footer>
+
+    <script>
+        /*
+         * PRODUCT DATA
+         *
+         * Later, replace this array with data fetched from Supabase.
+         *
+         * Each product has:
+         * id, name, description, price, category, image, link
+         */
+
+        const products = [
+
+            {
+                id: 1,
+                name: "Eureka Z60 Gaming Desk",
+                description: "A black 60-inch ergonomic gaming desk for his battlestation.",
+                price: 300,
+                category: "DESK",
+                image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=700",
+                link: "https://eurekaergonomic.com/products/z60-gaming-desk-black-60"
+            },
+
+            {
+                id: 2,
+                name: "3Dconnexion SpaceMouse Pro",
+                description: "A professional 3D navigation controller for development and 3D modeling.",
+                price: 300,
+                category: "TECH",
+                image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=700",
+                link: "https://www.3dconnexion.com/"
+            },
+
+            {
+                id: 3,
+                name: "Gaming Headset",
+                description: "A comfortable gaming headset for gaming, communication and music.",
+                price: 100,
+                category: "GAMING",
+                image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=700",
+                link: "https://www.amazon.com/s?k=gaming+headset"
+            },
+
+            {
+                id: 4,
+                name: "Gaming Mouse",
+                description: "A responsive gaming mouse for coding and gaming.",
+                price: 80,
+                category: "GAMING",
+                image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=700",
+                link: "https://www.amazon.com/s?k=gaming+mouse"
+            },
+
+            {
+                id: 5,
+                name: "Gaming Monitor",
+                description: "A new monitor to complete his gaming setup.",
+                price: 250,
+                category: "TECH",
+                image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=700",
+                link: "https://www.amazon.com/s?k=gaming+monitor"
+            },
+
+            {
+                id: 6,
+                name: "Homall RGB Gaming Chair",
+                description: "RGB lighting, retractable footrest, adjustable backrest and massage lumbar pillow.",
+                price: 150,
+                category: "CHAIR",
+                image: "https://images.unsplash.com/photo-1598300053653-1b6c0b5c4b36?w=700",
+                link: "https://www.amazon.com/dp/B0DKXJZHDL"
+            }
+
+        ];
+
+        function filterProducts() {
+
+            const min = Number(document.getElementById("minPrice").value);
+            const max = Number(document.getElementById("maxPrice").value);
+            const sort = document.getElementById("sort").value;
+
+            const container = document.getElementById("products");
+
+            if (
+                document.getElementById("minPrice").value === "" ||
+                document.getElementById("maxPrice").value === "" ||
+                min < 0 ||
+                max < 0 ||
+                min > max
+            ) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <h3>Invalid budget!</h3>
+                        <p>Please enter a valid minimum and maximum price.</p>
+                    </div>
+                `;
+
+                document.getElementById("resultCount").textContent = "Check your budget";
+                return;
+            }
+
+            let filtered = products.filter(product =>
+                product.price >= min && product.price <= max
+            );
+
+            if (sort === "low") {
+                filtered.sort((a, b) => a.price - b.price);
+            }
+
+            if (sort === "high") {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            document.getElementById("resultCount").textContent =
+                `${filtered.length} gift${filtered.length === 1 ? "" : "s"} found`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <h3>Nothing in this price range 😭</h3>
+                        <p>Try increasing your budget to discover more gifts!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(product => `
+                <article class="product">
+
+                    <div class="product-image">
+                        <img
+                            src="${product.image}"
+                            alt="${product.name}"
+                            loading="lazy"
+                            onerror="this.onerror=null;this.src='https://placehold.co/700x400/171f2c/ffffff?text=Gift+Image';"
+                        >
+                        <div class="category">${product.category}</div>
+                    </div>
+
+                    <div class="product-content">
+
+                        <h3>${product.name}</h3>
+
+                        <p class="description">
+                            ${product.description}
+                        </p>
+
+                        <div class="price-row">
+                            <div class="price">$${product.price.toLocaleString("en-US")}</div>
+                            <div class="price-note">ESTIMATED PRICE</div>
+                        </div>
+
+                        <a
+                            class="buy-btn"
+                            href="${product.link}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            View Gift →
+                        </a>
+
+                    </div>
+
+                </article>
+            `).join("");
+        }
+
+        document.getElementById("sort").addEventListener("change", filterProducts);
+
+        filterProducts();
+    </script>
+
+</body>
+</html>
