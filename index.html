@@ -477,12 +477,10 @@
             SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL" &&
             SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY";
 
-        let supabase = null;
+        let supabaseClient = null;
 
-        if (supabaseConfigured) {
-            const { createClient } = window.supabase;
-
-            supabase = createClient(
+        if (supabaseConfigured && window.supabase && window.supabase.createClient) {
+            supabaseClient = window.supabase.createClient(
                 SUPABASE_URL,
                 SUPABASE_ANON_KEY
             );
@@ -586,7 +584,7 @@
 
         async function loadPurchaseStatuses() {
 
-            if (!supabase) {
+            if (!supabaseClient) {
 
                 setConnection("offline", "Not connected");
 
@@ -597,7 +595,7 @@
 
             try {
 
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from("gift_status")
                     .select("product_id, purchased");
 
@@ -632,7 +630,7 @@
 
         async function markPurchased(productId, button) {
 
-            if (!supabase) {
+            if (!supabaseClient) {
                 alert("Supabase isn't connected yet!");
                 return;
             }
@@ -650,7 +648,7 @@
 
             try {
 
-                const { error } = await supabase
+                const { error } = await supabaseClient
                     .from("gift_status")
                     .upsert(
                         {
@@ -688,9 +686,9 @@
 
         function setupRealtime() {
 
-            if (!supabase) return;
+            if (!supabaseClient) return;
 
-            supabase
+            supabaseClient
                 .channel("gift-status-changes")
 
                 .on(
