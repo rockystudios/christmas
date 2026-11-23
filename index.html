@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Santa for Thanos 🎅</title>
+    <title>Presents hehehehehhe</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -40,8 +43,8 @@
         }
 
         a {
-            color: inherit;
             text-decoration: none;
+            color: inherit;
         }
 
         .navbar {
@@ -64,14 +67,27 @@
             color: var(--red);
         }
 
-        .nav-tag {
-            color: var(--green);
-            border: 1px solid rgba(57,189,131,0.3);
-            background: rgba(57,189,131,0.08);
-            padding: 8px 14px;
-            border-radius: 30px;
+        .connection {
             font-size: 12px;
-            font-weight: 700;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connection-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e5a33b;
+        }
+
+        .connection.online .connection-dot {
+            background: var(--green);
+        }
+
+        .connection.offline .connection-dot {
+            background: var(--red);
         }
 
         .hero {
@@ -144,7 +160,8 @@
             font-weight: 700;
         }
 
-        .field input, .field select {
+        .field input,
+        .field select {
             width: 100%;
             background: var(--panel2);
             color: white;
@@ -154,7 +171,8 @@
             outline: none;
         }
 
-        .field input:focus, .field select:focus {
+        .field input:focus,
+        .field select:focus {
             border-color: var(--red);
         }
 
@@ -280,18 +298,58 @@
         .buy-btn {
             display: block;
             width: 100%;
-            background: var(--red);
+            background: var(--panel2);
             color: white;
             text-align: center;
             padding: 13px;
+            border: 1px solid var(--border);
             border-radius: 9px;
             font-size: 13px;
             font-weight: 800;
             transition: 0.2s;
+            margin-bottom: 9px;
         }
 
         .buy-btn:hover {
-            background: #ff596e;
+            background: #273348;
+        }
+
+        .purchase-btn {
+            display: block;
+            width: 100%;
+            background: var(--green);
+            color: #07140e;
+            border: none;
+            padding: 13px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .purchase-btn:hover {
+            background: #55d99e;
+        }
+
+        .purchase-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        .purchased .purchase-btn {
+            background: rgba(237,64,86,0.13);
+            color: #ff7181;
+            border: 1px solid rgba(237,64,86,0.25);
+            cursor: default;
+        }
+
+        .purchased {
+            border-color: rgba(237,64,86,0.3);
+        }
+
+        .purchased .price {
+            color: var(--muted);
         }
 
         .empty {
@@ -323,6 +381,21 @@
 
         .footer span {
             color: var(--red);
+        }
+
+        .notice {
+            display: none;
+            background: rgba(237,64,86,0.1);
+            border: 1px solid rgba(237,64,86,0.3);
+            padding: 14px;
+            border-radius: 10px;
+            color: #ff8996;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .notice.show {
+            display: block;
         }
 
         @media(max-width: 900px) {
@@ -358,38 +431,72 @@
 <body>
 
     <nav class="navbar">
-        <div class="logo">SANTA<span>FOR</span>THANOS 🎅</div>
-        <div class="nav-tag">2026 CHRISTMAS</div>
+
+        <div class="logo">
+            SANTA<span>FOR</span>THANOS 🎅
+        </div>
+
+        <div class="connection" id="connection">
+            <span class="connection-dot"></span>
+            <span id="connectionText">Connecting...</span>
+        </div>
+
     </nav>
 
     <header class="hero">
-        <div class="hero-label">🎄 THE OFFICIAL CHRISTMAS GIFT FINDER</div>
-        <h1>Make Thanos'<br><span>Christmas.</span></h1>
+
+        <div class="hero-label">
+            🎄 THE OFFICIAL CHRISTMAS GIFT FINDER
+        </div>
+
+        <h1>
+            Make Thanos'<br>
+            <span>Christmas.</span>
+        </h1>
+
         <p>
-            Looking for the perfect gift? Choose your budget
-            and discover something Thanos will actually love.
+            Looking for the perfect gift?
+            Choose your budget and discover something
+            Thanos will actually love.
         </p>
+
     </header>
 
     <main class="main">
 
+        <div class="notice" id="notice"></div>
+
         <section class="filter-panel">
-            <div class="filter-heading">💰 What's your budget?</div>
+
+            <div class="filter-heading">
+                💰 What's your budget?
+            </div>
 
             <div class="filters">
 
                 <div class="field">
                     <label for="minPrice">MINIMUM PRICE ($)</label>
-                    <input type="number" id="minPrice" min="0" value="0">
+                    <input
+                        type="number"
+                        id="minPrice"
+                        min="0"
+                        value="0"
+                    >
                 </div>
 
                 <div class="field">
                     <label for="maxPrice">MAXIMUM PRICE ($)</label>
-                    <input type="number" id="maxPrice" min="0" value="1000">
+                    <input
+                        type="number"
+                        id="maxPrice"
+                        min="0"
+                        value="1000"
+                    >
                 </div>
 
                 <div class="field">
                     <label for="sort">SORT PRODUCTS</label>
+
                     <select id="sort">
                         <option value="recommended">Recommended</option>
                         <option value="low">Price: Low to High</option>
@@ -402,11 +509,15 @@
                 </button>
 
             </div>
+
         </section>
 
         <div class="section-header">
+
             <h2>🎁 Gift Ideas</h2>
+
             <div class="result-count" id="resultCount"></div>
+
         </div>
 
         <section class="products" id="products"></section>
@@ -418,19 +529,40 @@
     </footer>
 
     <script>
-        /*
-         * PRODUCT DATA
-         *
-         * Later, replace this array with data fetched from Supabase.
-         *
-         * Each product has:
-         * id, name, description, price, category, image, link
-         */
+
+        // ==========================================
+        // 1. SUPABASE CONFIGURATION
+        // ==========================================
+
+        const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
+
+        const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+        const supabaseConfigured =
+            SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL" &&
+            SUPABASE_ANON_KEY !== "YOUR_SUPABASE_ANON_KEY";
+
+        let supabase = null;
+
+        if (supabaseConfigured) {
+            const { createClient } = window.supabase;
+
+            supabase = createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+        }
+
+
+        // ==========================================
+        // 2. PRODUCT DATA
+        // ALL PRODUCTS ARE STORED IN THIS FILE
+        // ==========================================
 
         const products = [
 
             {
-                id: 1,
+                id: "1",
                 name: "Eureka Z60 Gaming Desk",
                 description: "A black 60-inch ergonomic gaming desk for his battlestation.",
                 price: 300,
@@ -440,7 +572,7 @@
             },
 
             {
-                id: 2,
+                id: "2",
                 name: "3Dconnexion SpaceMouse Pro",
                 description: "A professional 3D navigation controller for development and 3D modeling.",
                 price: 300,
@@ -450,7 +582,7 @@
             },
 
             {
-                id: 3,
+                id: "3",
                 name: "Gaming Headset",
                 description: "A comfortable gaming headset for gaming, communication and music.",
                 price: 100,
@@ -460,7 +592,7 @@
             },
 
             {
-                id: 4,
+                id: "4",
                 name: "Gaming Mouse",
                 description: "A responsive gaming mouse for coding and gaming.",
                 price: 80,
@@ -470,7 +602,7 @@
             },
 
             {
-                id: 5,
+                id: "5",
                 name: "Gaming Monitor",
                 description: "A new monitor to complete his gaming setup.",
                 price: 250,
@@ -480,7 +612,7 @@
             },
 
             {
-                id: 6,
+                id: "6",
                 name: "Homall RGB Gaming Chair",
                 description: "RGB lighting, retractable footrest, adjustable backrest and massage lumbar pillow.",
                 price: 150,
@@ -491,101 +623,455 @@
 
         ];
 
+
+        // ==========================================
+        // 3. PURCHASE STATUS
+        // ==========================================
+
+        // Product IDs marked as purchased.
+        // Supabase fills this object.
+
+        let purchasedProducts = {};
+
+        let loadingProducts = true;
+
+
+        // ==========================================
+        // 4. CONNECTION STATUS
+        // ==========================================
+
+        function setConnection(status, message) {
+
+            const connection = document.getElementById("connection");
+
+            connection.className = "connection " + status;
+
+            document.getElementById("connectionText").textContent = message;
+
+        }
+
+
+        function showNotice(message) {
+
+            const notice = document.getElementById("notice");
+
+            notice.textContent = message;
+
+            notice.classList.add("show");
+
+        }
+
+
+        // ==========================================
+        // 5. LOAD PURCHASED GIFTS
+        // ==========================================
+
+        async function loadPurchaseStatuses() {
+
+            if (!supabase) {
+
+                setConnection("offline", "Supabase not configured");
+
+                showNotice(
+                    "Supabase isn't configured yet. Products are visible, but purchase tracking is disabled."
+                );
+
+                loadingProducts = false;
+
+                renderProducts();
+
+                return;
+            }
+
+            try {
+
+                const { data, error } = await supabase
+                    .from("gift_status")
+                    .select("product_id, purchased");
+
+                if (error) {
+                    throw error;
+                }
+
+                purchasedProducts = {};
+
+                data.forEach(item => {
+
+                    purchasedProducts[item.product_id] = item.purchased;
+
+                });
+
+                loadingProducts = false;
+
+                setConnection("online", "Live purchase tracking");
+
+                renderProducts();
+
+            } catch (error) {
+
+                console.error("Supabase loading error:", error);
+
+                setConnection("offline", "Connection error");
+
+                showNotice(
+                    "Couldn't load purchase statuses. Please refresh the page."
+                );
+
+                loadingProducts = false;
+
+                renderProducts();
+
+            }
+
+        }
+
+
+        // ==========================================
+        // 6. MARK A GIFT AS PURCHASED
+        // ==========================================
+
+        async function markPurchased(productId, button) {
+
+            if (!supabase) {
+
+                alert("Supabase has not been configured yet.");
+
+                return;
+            }
+
+            if (purchasedProducts[productId]) {
+                return;
+            }
+
+            const confirmed = confirm(
+                "Have you actually bought this gift? This will mark it as purchased for everyone."
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            button.disabled = true;
+
+            button.textContent = "Saving...";
+
+            try {
+
+                const { error } = await supabase
+                    .from("gift_status")
+                    .upsert(
+                        {
+                            product_id: productId,
+                            purchased: true
+                        },
+                        {
+                            onConflict: "product_id"
+                        }
+                    );
+
+                if (error) {
+                    throw error;
+                }
+
+                purchasedProducts[productId] = true;
+
+                renderProducts();
+
+            } catch (error) {
+
+                console.error("Purchase error:", error);
+
+                alert(
+                    "Couldn't save the purchase. Please try again."
+                );
+
+                button.disabled = false;
+
+                button.textContent = "I've bought this!";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // 7. REALTIME SUPABASE SYNCHRONIZATION
+        // ==========================================
+
+        function setupRealtime() {
+
+            if (!supabase) {
+                return;
+            }
+
+            supabase
+                .channel("gift-status-changes")
+
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "*",
+                        schema: "public",
+                        table: "gift_status"
+                    },
+
+                    payload => {
+
+                        const item = payload.new;
+
+                        if (item && item.product_id) {
+
+                            purchasedProducts[item.product_id] =
+                                item.purchased;
+
+                            renderProducts();
+
+                        }
+
+                    }
+                )
+
+                .subscribe(status => {
+
+                    if (status === "SUBSCRIBED") {
+
+                        setConnection("online", "Live purchase tracking");
+
+                    }
+
+                    if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+
+                        setConnection("offline", "Realtime disconnected");
+
+                    }
+
+                });
+
+        }
+
+
+        // ==========================================
+        // 8. FILTER PRODUCTS
+        // ==========================================
+
         function filterProducts() {
 
-            const min = Number(document.getElementById("minPrice").value);
-            const max = Number(document.getElementById("maxPrice").value);
-            const sort = document.getElementById("sort").value;
+            const minInput = document.getElementById("minPrice");
 
-            const container = document.getElementById("products");
+            const maxInput = document.getElementById("maxPrice");
+
+            const min = Number(minInput.value);
+
+            const max = Number(maxInput.value);
 
             if (
-                document.getElementById("minPrice").value === "" ||
-                document.getElementById("maxPrice").value === "" ||
+                minInput.value === "" ||
+                maxInput.value === "" ||
+                !Number.isFinite(min) ||
+                !Number.isFinite(max) ||
                 min < 0 ||
                 max < 0 ||
                 min > max
             ) {
-                container.innerHTML = `
+
+                document.getElementById("products").innerHTML = `
                     <div class="empty">
                         <h3>Invalid budget!</h3>
                         <p>Please enter a valid minimum and maximum price.</p>
                     </div>
                 `;
 
-                document.getElementById("resultCount").textContent = "Check your budget";
+                document.getElementById("resultCount").textContent =
+                    "Check your budget";
+
                 return;
+
             }
 
+            const sort = document.getElementById("sort").value;
+
             let filtered = products.filter(product =>
-                product.price >= min && product.price <= max
+
+                product.price >= min &&
+                product.price <= max
+
             );
 
             if (sort === "low") {
+
                 filtered.sort((a, b) => a.price - b.price);
+
             }
 
             if (sort === "high") {
+
                 filtered.sort((a, b) => b.price - a.price);
+
             }
 
-            document.getElementById("resultCount").textContent =
-                `${filtered.length} gift${filtered.length === 1 ? "" : "s"} found`;
+            renderProducts(filtered);
 
-            if (filtered.length === 0) {
+        }
+
+
+        // ==========================================
+        // 9. RENDER PRODUCTS
+        // ==========================================
+
+        function renderProducts(filteredProducts = null) {
+
+            const container = document.getElementById("products");
+
+            const min = Number(document.getElementById("minPrice").value);
+
+            const max = Number(document.getElementById("maxPrice").value);
+
+            let visibleProducts = filteredProducts;
+
+            if (visibleProducts === null) {
+
+                visibleProducts = products.filter(product =>
+
+                    product.price >= min &&
+                    product.price <= max
+
+                );
+
+            }
+
+            const purchasedCount = visibleProducts.filter(product =>
+
+                purchasedProducts[product.id] === true
+
+            ).length;
+
+            document.getElementById("resultCount").textContent =
+
+                `${visibleProducts.length} gifts found · ${purchasedCount} purchased`;
+
+            if (visibleProducts.length === 0) {
+
                 container.innerHTML = `
                     <div class="empty">
                         <h3>Nothing in this price range 😭</h3>
                         <p>Try increasing your budget to discover more gifts!</p>
                     </div>
                 `;
+
                 return;
+
             }
 
-            container.innerHTML = filtered.map(product => `
-                <article class="product">
+            container.innerHTML = visibleProducts.map(product => {
 
-                    <div class="product-image">
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}"
-                            loading="lazy"
-                            onerror="this.onerror=null;this.src='https://placehold.co/700x400/171f2c/ffffff?text=Gift+Image';"
-                        >
-                        <div class="category">${product.category}</div>
-                    </div>
+                const purchased = purchasedProducts[product.id] === true;
 
-                    <div class="product-content">
+                return `
 
-                        <h3>${product.name}</h3>
+                    <article class="product ${purchased ? "purchased" : ""}">
 
-                        <p class="description">
-                            ${product.description}
-                        </p>
+                        <div class="product-image">
 
-                        <div class="price-row">
-                            <div class="price">$${product.price.toLocaleString("en-US")}</div>
-                            <div class="price-note">ESTIMATED PRICE</div>
+                            <img
+                                src="${product.image}"
+                                alt="${product.name}"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='https://placehold.co/700x400/171f2c/ffffff?text=Gift+Image';"
+                            >
+
+                            <div class="category">
+                                ${product.category}
+                            </div>
+
                         </div>
 
-                        <a
-                            class="buy-btn"
-                            href="${product.link}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            View Gift →
-                        </a>
+                        <div class="product-content">
 
-                    </div>
+                            <h3>${product.name}</h3>
 
-                </article>
-            `).join("");
+                            <p class="description">
+                                ${product.description}
+                            </p>
+
+                            <div class="price-row">
+
+                                <div class="price">
+                                    $${product.price.toLocaleString("en-US")}
+                                </div>
+
+                                <div class="price-note">
+                                    ESTIMATED PRICE
+                                </div>
+
+                            </div>
+
+                            <a
+                                class="buy-btn"
+                                href="${product.link}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                View Gift →
+                            </a>
+
+                            <button
+                                class="purchase-btn"
+                                ${purchased ? "disabled" : ""}
+                                onclick="markPurchased('${product.id}', this)"
+                            >
+                                ${purchased ? "✓ Already Purchased" : "I've bought this!"}
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }).join("");
+
         }
 
-        document.getElementById("sort").addEventListener("change", filterProducts);
+
+        // ==========================================
+        // 10. EVENT LISTENERS
+        // ==========================================
+
+        document
+            .getElementById("sort")
+            .addEventListener("change", filterProducts);
+
+        document
+            .getElementById("minPrice")
+            .addEventListener("keydown", event => {
+
+                if (event.key === "Enter") {
+                    filterProducts();
+                }
+
+            });
+
+        document
+            .getElementById("maxPrice")
+            .addEventListener("keydown", event => {
+
+                if (event.key === "Enter") {
+                    filterProducts();
+                }
+
+            });
+
+
+        // ==========================================
+        // 11. START WEBSITE
+        // ==========================================
 
         filterProducts();
+
+        loadPurchaseStatuses();
+
+        setupRealtime();
+
     </script>
 
 </body>
