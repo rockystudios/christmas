@@ -4,10 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presents hehehehehhe</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Presents heheheheh 🎁</title>
 
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -17,7 +14,7 @@
         :root {
             --bg: #080b12;
             --panel: #111722;
-            --panel2: #171f2c;
+            --panel2: #192231;
             --red: #ed4056;
             --green: #39bd83;
             --text: #f5f7fa;
@@ -43,8 +40,8 @@
         }
 
         a {
-            text-decoration: none;
             color: inherit;
+            text-decoration: none;
         }
 
         .navbar {
@@ -54,7 +51,6 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid var(--border);
-            background: rgba(8,11,18,0.95);
         }
 
         .logo {
@@ -91,10 +87,13 @@
         }
 
         .hero {
-            padding: 85px 20px 65px;
+            padding: 90px 20px 65px;
             text-align: center;
-            background:
-                radial-gradient(ellipse at 50% 0%, rgba(237,64,86,0.17), transparent 60%);
+            background: radial-gradient(
+                ellipse at 50% 0%,
+                rgba(237,64,86,0.17),
+                transparent 60%
+            );
         }
 
         .hero-label {
@@ -120,8 +119,6 @@
         .hero p {
             color: var(--muted);
             margin: 20px auto 0;
-            max-width: 520px;
-            line-height: 1.7;
             font-size: 15px;
         }
 
@@ -171,11 +168,6 @@
             outline: none;
         }
 
-        .field input:focus,
-        .field select:focus {
-            border-color: var(--red);
-        }
-
         .apply-btn {
             background: var(--red);
             border: none;
@@ -184,12 +176,10 @@
             border-radius: 10px;
             font-weight: 800;
             cursor: pointer;
-            transition: 0.2s;
         }
 
         .apply-btn:hover {
             background: #ff596e;
-            transform: translateY(-2px);
         }
 
         .section-header {
@@ -256,7 +246,6 @@
             border-radius: 20px;
             font-size: 10px;
             font-weight: 800;
-            letter-spacing: 1px;
         }
 
         .product-content {
@@ -306,7 +295,6 @@
             border-radius: 9px;
             font-size: 13px;
             font-weight: 800;
-            transition: 0.2s;
             margin-bottom: 9px;
         }
 
@@ -325,23 +313,11 @@
             font-size: 13px;
             font-weight: 800;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .purchase-btn:hover {
-            background: #55d99e;
         }
 
         .purchase-btn:disabled {
             cursor: not-allowed;
-            opacity: 0.65;
-        }
-
-        .purchased .purchase-btn {
-            background: rgba(237,64,86,0.13);
-            color: #ff7181;
-            border: 1px solid rgba(237,64,86,0.25);
-            cursor: default;
+            opacity: 0.8;
         }
 
         .purchased {
@@ -350,6 +326,13 @@
 
         .purchased .price {
             color: var(--muted);
+        }
+
+        .purchased .purchase-btn {
+            background: rgba(237,64,86,0.13);
+            color: #ff7181;
+            border: 1px solid rgba(237,64,86,0.25);
+            cursor: default;
         }
 
         .empty {
@@ -381,21 +364,6 @@
 
         .footer span {
             color: var(--red);
-        }
-
-        .notice {
-            display: none;
-            background: rgba(237,64,86,0.1);
-            border: 1px solid rgba(237,64,86,0.3);
-            padding: 14px;
-            border-radius: 10px;
-            color: #ff8996;
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-
-        .notice.show {
-            display: block;
         }
 
         @media(max-width: 900px) {
@@ -431,93 +399,61 @@
 <body>
 
     <nav class="navbar">
-
-        <div class="logo">
-            SANTA<span>FOR</span>THANOS 🎅
-        </div>
+        <div class="logo">PRESENTS <span>HEHEHEHEH</span> 🎁</div>
 
         <div class="connection" id="connection">
             <span class="connection-dot"></span>
             <span id="connectionText">Connecting...</span>
         </div>
-
     </nav>
 
     <header class="hero">
-
-        <div class="hero-label">
-            🎄 THE OFFICIAL CHRISTMAS GIFT FINDER
-        </div>
+        <div class="hero-label">🎄 CHRISTMAS 2026</div>
 
         <h1>
-            Make Thanos'<br>
-            <span>Christmas.</span>
+            Presents<br>
+            <span>heheheheh.</span>
         </h1>
 
-        <p>
-            Looking for the perfect gift?
-            Choose your budget and discover something
-            Thanos will actually love.
-        </p>
-
+        <p>Pick a budget. Find a present. 😈</p>
     </header>
 
     <main class="main">
 
-        <div class="notice" id="notice"></div>
-
         <section class="filter-panel">
-
-            <div class="filter-heading">
-                💰 What's your budget?
-            </div>
+            <div class="filter-heading">💰 Budget</div>
 
             <div class="filters">
 
                 <div class="field">
-                    <label for="minPrice">MINIMUM PRICE ($)</label>
-                    <input
-                        type="number"
-                        id="minPrice"
-                        min="0"
-                        value="0"
-                    >
+                    <label for="minPrice">MINIMUM ($)</label>
+                    <input type="number" id="minPrice" min="0" value="0">
                 </div>
 
                 <div class="field">
-                    <label for="maxPrice">MAXIMUM PRICE ($)</label>
-                    <input
-                        type="number"
-                        id="maxPrice"
-                        min="0"
-                        value="1000"
-                    >
+                    <label for="maxPrice">MAXIMUM ($)</label>
+                    <input type="number" id="maxPrice" min="0" value="1000">
                 </div>
 
                 <div class="field">
-                    <label for="sort">SORT PRODUCTS</label>
-
+                    <label for="sort">SORT BY</label>
                     <select id="sort">
                         <option value="recommended">Recommended</option>
-                        <option value="low">Price: Low to High</option>
-                        <option value="high">Price: High to Low</option>
+                        <option value="low">Cheapest first</option>
+                        <option value="high">Most expensive first</option>
                     </select>
                 </div>
 
                 <button class="apply-btn" onclick="filterProducts()">
-                    Find Gifts →
+                    Find presents →
                 </button>
 
             </div>
-
         </section>
 
         <div class="section-header">
-
-            <h2>🎁 Gift Ideas</h2>
-
+            <h2>🎁 The presents</h2>
             <div class="result-count" id="resultCount"></div>
-
         </div>
 
         <section class="products" id="products"></section>
@@ -525,17 +461,16 @@
     </main>
 
     <footer class="footer">
-        Made with <span>❤️</span> for Thanos · Christmas 2026
+        <span>heheheheh</span> · Christmas 2026 🎄
     </footer>
 
     <script>
 
         // ==========================================
-        // 1. SUPABASE CONFIGURATION
+        // SUPABASE CONFIG
         // ==========================================
 
         const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-
         const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
         const supabaseConfigured =
@@ -555,16 +490,15 @@
 
 
         // ==========================================
-        // 2. PRODUCT DATA
-        // ALL PRODUCTS ARE STORED IN THIS FILE
+        // ALL OF THANOS' GIFTS
         // ==========================================
 
         const products = [
 
             {
                 id: "1",
-                name: "Eureka Z60 Gaming Desk",
-                description: "A black 60-inch ergonomic gaming desk for his battlestation.",
+                name: "Eureka Ergonomic Z60 Desk",
+                description: "Black 60-inch gaming desk.",
                 price: 300,
                 category: "DESK",
                 image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=700",
@@ -574,7 +508,7 @@
             {
                 id: "2",
                 name: "3Dconnexion SpaceMouse Pro",
-                description: "A professional 3D navigation controller for development and 3D modeling.",
+                description: "Professional 3D navigation controller.",
                 price: 300,
                 category: "TECH",
                 image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=700",
@@ -584,7 +518,7 @@
             {
                 id: "3",
                 name: "Gaming Headset",
-                description: "A comfortable gaming headset for gaming, communication and music.",
+                description: "A new headset for gaming and music.",
                 price: 100,
                 category: "GAMING",
                 image: "https://images.unsplash.com/photo-1599669454699-248893623440?w=700",
@@ -594,7 +528,7 @@
             {
                 id: "4",
                 name: "Gaming Mouse",
-                description: "A responsive gaming mouse for coding and gaming.",
+                description: "A new mouse for his setup.",
                 price: 80,
                 category: "GAMING",
                 image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=700",
@@ -604,7 +538,7 @@
             {
                 id: "5",
                 name: "Gaming Monitor",
-                description: "A new monitor to complete his gaming setup.",
+                description: "A new monitor for his battlestation.",
                 price: 250,
                 category: "TECH",
                 image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=700",
@@ -614,7 +548,7 @@
             {
                 id: "6",
                 name: "Homall RGB Gaming Chair",
-                description: "RGB lighting, retractable footrest, adjustable backrest and massage lumbar pillow.",
+                description: "RGB lighting, footrest and adjustable backrest.",
                 price: 150,
                 category: "CHAIR",
                 image: "https://images.unsplash.com/photo-1598300053653-1b6c0b5c4b36?w=700",
@@ -625,19 +559,14 @@
 
 
         // ==========================================
-        // 3. PURCHASE STATUS
+        // PURCHASE STATUS
         // ==========================================
-
-        // Product IDs marked as purchased.
-        // Supabase fills this object.
 
         let purchasedProducts = {};
 
-        let loadingProducts = true;
-
 
         // ==========================================
-        // 4. CONNECTION STATUS
+        // CONNECTION STATUS
         // ==========================================
 
         function setConnection(status, message) {
@@ -651,32 +580,15 @@
         }
 
 
-        function showNotice(message) {
-
-            const notice = document.getElementById("notice");
-
-            notice.textContent = message;
-
-            notice.classList.add("show");
-
-        }
-
-
         // ==========================================
-        // 5. LOAD PURCHASED GIFTS
+        // LOAD PURCHASE STATUS
         // ==========================================
 
         async function loadPurchaseStatuses() {
 
             if (!supabase) {
 
-                setConnection("offline", "Supabase not configured");
-
-                showNotice(
-                    "Supabase isn't configured yet. Products are visible, but purchase tracking is disabled."
-                );
-
-                loadingProducts = false;
+                setConnection("offline", "Not connected");
 
                 renderProducts();
 
@@ -689,37 +601,25 @@
                     .from("gift_status")
                     .select("product_id, purchased");
 
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
 
                 purchasedProducts = {};
 
                 data.forEach(item => {
-
                     purchasedProducts[item.product_id] = item.purchased;
-
                 });
 
-                loadingProducts = false;
-
-                setConnection("online", "Live purchase tracking");
+                setConnection("online", "Live tracking");
 
                 renderProducts();
 
             } catch (error) {
 
-                console.error("Supabase loading error:", error);
+                console.error(error);
 
                 setConnection("offline", "Connection error");
 
-                showNotice(
-                    "Couldn't load purchase statuses. Please refresh the page."
-                );
-
-                loadingProducts = false;
-
-                renderProducts();
+                alert("Couldn't load purchase statuses. Check your Supabase setup.");
 
             }
 
@@ -727,32 +627,25 @@
 
 
         // ==========================================
-        // 6. MARK A GIFT AS PURCHASED
+        // MARK AS PURCHASED
         // ==========================================
 
         async function markPurchased(productId, button) {
 
             if (!supabase) {
-
-                alert("Supabase has not been configured yet.");
-
+                alert("Supabase isn't connected yet!");
                 return;
             }
 
-            if (purchasedProducts[productId]) {
-                return;
-            }
+            if (purchasedProducts[productId]) return;
 
             const confirmed = confirm(
-                "Have you actually bought this gift? This will mark it as purchased for everyone."
+                "You've bought this present? heheheheh 🎁"
             );
 
-            if (!confirmed) {
-                return;
-            }
+            if (!confirmed) return;
 
             button.disabled = true;
-
             button.textContent = "Saving...";
 
             try {
@@ -769,9 +662,7 @@
                         }
                     );
 
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
 
                 purchasedProducts[productId] = true;
 
@@ -779,14 +670,11 @@
 
             } catch (error) {
 
-                console.error("Purchase error:", error);
+                console.error(error);
 
-                alert(
-                    "Couldn't save the purchase. Please try again."
-                );
+                alert("Couldn't save. Try again!");
 
                 button.disabled = false;
-
                 button.textContent = "I've bought this!";
 
             }
@@ -795,14 +683,12 @@
 
 
         // ==========================================
-        // 7. REALTIME SUPABASE SYNCHRONIZATION
+        // REALTIME UPDATES
         // ==========================================
 
         function setupRealtime() {
 
-            if (!supabase) {
-                return;
-            }
+            if (!supabase) return;
 
             supabase
                 .channel("gift-status-changes")
@@ -814,7 +700,6 @@
                         schema: "public",
                         table: "gift_status"
                     },
-
                     payload => {
 
                         const item = payload.new;
@@ -834,15 +719,14 @@
                 .subscribe(status => {
 
                     if (status === "SUBSCRIBED") {
-
-                        setConnection("online", "Live purchase tracking");
-
+                        setConnection("online", "Live tracking");
                     }
 
-                    if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
-
+                    if (
+                        status === "CHANNEL_ERROR" ||
+                        status === "TIMED_OUT"
+                    ) {
                         setConnection("offline", "Realtime disconnected");
-
                     }
 
                 });
@@ -851,17 +735,15 @@
 
 
         // ==========================================
-        // 8. FILTER PRODUCTS
+        // FILTER PRODUCTS
         // ==========================================
 
         function filterProducts() {
 
             const minInput = document.getElementById("minPrice");
-
             const maxInput = document.getElementById("maxPrice");
 
             const min = Number(minInput.value);
-
             const max = Number(maxInput.value);
 
             if (
@@ -876,13 +758,11 @@
 
                 document.getElementById("products").innerHTML = `
                     <div class="empty">
-                        <h3>Invalid budget!</h3>
-                        <p>Please enter a valid minimum and maximum price.</p>
+                        <h3>Invalid budget 😭</h3>
                     </div>
                 `;
 
-                document.getElementById("resultCount").textContent =
-                    "Check your budget";
+                document.getElementById("resultCount").textContent = "";
 
                 return;
 
@@ -891,22 +771,15 @@
             const sort = document.getElementById("sort").value;
 
             let filtered = products.filter(product =>
-
-                product.price >= min &&
-                product.price <= max
-
+                product.price >= min && product.price <= max
             );
 
             if (sort === "low") {
-
                 filtered.sort((a, b) => a.price - b.price);
-
             }
 
             if (sort === "high") {
-
                 filtered.sort((a, b) => b.price - a.price);
-
             }
 
             renderProducts(filtered);
@@ -915,7 +788,7 @@
 
 
         // ==========================================
-        // 9. RENDER PRODUCTS
+        // RENDER PRODUCTS
         // ==========================================
 
         function renderProducts(filteredProducts = null) {
@@ -923,7 +796,6 @@
             const container = document.getElementById("products");
 
             const min = Number(document.getElementById("minPrice").value);
-
             const max = Number(document.getElementById("maxPrice").value);
 
             let visibleProducts = filteredProducts;
@@ -931,30 +803,23 @@
             if (visibleProducts === null) {
 
                 visibleProducts = products.filter(product =>
-
-                    product.price >= min &&
-                    product.price <= max
-
+                    product.price >= min && product.price <= max
                 );
 
             }
 
             const purchasedCount = visibleProducts.filter(product =>
-
                 purchasedProducts[product.id] === true
-
             ).length;
 
             document.getElementById("resultCount").textContent =
-
-                `${visibleProducts.length} gifts found · ${purchasedCount} purchased`;
+                `${visibleProducts.length} presents · ${purchasedCount} bought`;
 
             if (visibleProducts.length === 0) {
 
                 container.innerHTML = `
                     <div class="empty">
-                        <h3>Nothing in this price range 😭</h3>
-                        <p>Try increasing your budget to discover more gifts!</p>
+                        <h3>No presents here 😭</h3>
                     </div>
                 `;
 
@@ -976,7 +841,7 @@
                                 src="${product.image}"
                                 alt="${product.name}"
                                 loading="lazy"
-                                onerror="this.onerror=null;this.src='https://placehold.co/700x400/171f2c/ffffff?text=Gift+Image';"
+                                onerror="this.onerror=null;this.src='https://placehold.co/700x400/171f2c/ffffff?text=Present';"
                             >
 
                             <div class="category">
@@ -1000,7 +865,7 @@
                                 </div>
 
                                 <div class="price-note">
-                                    ESTIMATED PRICE
+                                    ESTIMATED
                                 </div>
 
                             </div>
@@ -1011,7 +876,7 @@
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                View Gift →
+                                View present →
                             </a>
 
                             <button
@@ -1019,7 +884,7 @@
                                 ${purchased ? "disabled" : ""}
                                 onclick="markPurchased('${product.id}', this)"
                             >
-                                ${purchased ? "✓ Already Purchased" : "I've bought this!"}
+                                ${purchased ? "✓ Already bought!" : "I've bought this!"}
                             </button>
 
                         </div>
@@ -1034,7 +899,7 @@
 
 
         // ==========================================
-        // 10. EVENT LISTENERS
+        // EVENT LISTENERS
         // ==========================================
 
         document
@@ -1044,26 +909,18 @@
         document
             .getElementById("minPrice")
             .addEventListener("keydown", event => {
-
-                if (event.key === "Enter") {
-                    filterProducts();
-                }
-
+                if (event.key === "Enter") filterProducts();
             });
 
         document
             .getElementById("maxPrice")
             .addEventListener("keydown", event => {
-
-                if (event.key === "Enter") {
-                    filterProducts();
-                }
-
+                if (event.key === "Enter") filterProducts();
             });
 
 
         // ==========================================
-        // 11. START WEBSITE
+        // START
         // ==========================================
 
         filterProducts();
